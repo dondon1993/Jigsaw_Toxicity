@@ -26,7 +26,7 @@ def train_LSTM(t_config, p_config, s_config):
     device=torch.device('cuda')
     seed_everything(s_config.seed)
     
-    train = pd.read_csv('./input/train.csv').sample(t_config.num_to_load+t_config.valid_size,
+    train = pd.read_csv('../input/train.csv').sample(t_config.num_to_load+t_config.valid_size,
                                                     random_state=s_config.seed)
     train = prepare_train_text(train, p_config)
     train = train.fillna(0)
@@ -34,7 +34,7 @@ def train_LSTM(t_config, p_config, s_config):
     with open('./vocab/embeddings_fast.pickle', 'rb') as handle:
         embeddings_index_fast = pickle.load(handle)
     
-    with open('./voab/embeddings_glove.pickle', 'rb') as handle:
+    with open('./vocab/embeddings_glove.pickle', 'rb') as handle:
         embeddings_index_glove = pickle.load(handle)
 
     with open('./vocab/vocab.pickle', 'rb') as handle:
