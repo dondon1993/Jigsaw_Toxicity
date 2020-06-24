@@ -1,9 +1,7 @@
 import numpy as np
 import pandas as pd
-
 import os
 
-import import_ipynb
 from utils.Seed import seed_config, seed_everything
 from utils.Preprocess import preproc_config, prepare_train_text
 from utils.LSTM import train_config, create_embedding_index, build_vocab
