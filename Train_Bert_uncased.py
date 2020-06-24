@@ -1,71 +1,30 @@
-
-# coding: utf-8
-
-# In[1]:
-
-
 import numpy as np
 import pandas as pd
 import json
 import os
-
-
-# In[2]:
-
 
 import import_ipynb
 from utils.Seed import seed_config, seed_everything
 from utils.Preprocess import preproc_config, prepare_train_text
 from utils.Bert import get_tokenized_samples, resort_index, clip_to_max_len, train_config
 
-
-# In[3]:
-
-
 from apex import amp
 import apex
 import sys
 
-
-# In[4]:
-
-
 from tqdm import tqdm_notebook
-pd.options.display.precision = 6
-
-import time
-import warnings
-warnings.filterwarnings("ignore")
-
-from scipy import stats
-
-
-# In[5]:
-
 
 from transformers import BertTokenizer,BertForSequenceClassification
 from pytorch_pretrained_bert import BertAdam
-
-
-# In[6]:
-
 
 import torch
 from torch import nn
 from torch.utils import data
 from torch.nn import functional as F
 
-
-# In[7]:
-
-
 identity_columns = [
     'male', 'female', 'homosexual_gay_or_lesbian', 'christian', 'jewish',
     'muslim', 'black', 'white', 'psychiatric_or_mental_illness']
-
-
-# In[11]:
-
 
 def train_bert_uncased(t_config, p_config, s_config):
     
@@ -87,7 +46,6 @@ def train_bert_uncased(t_config, p_config, s_config):
     MyModel = BertForSequenceClassification.from_pretrained('bert-base-cased',num_labels=t_config.num_labels)
     MyModel.to(device)
     
-    # Possbile way to refactor the code below is to write pipeline for train and validation data
     # Prepare target
     target_train = train['target'].values[:t_config.num_to_load]
     target_train_aux = train[['severe_toxicity', 'obscene', 'identity_attack', 'insult', 'threat']].values[:t_config.num_to_load]
@@ -169,10 +127,6 @@ def train_bert_uncased(t_config, p_config, s_config):
             'model_state_dict': MyModel.state_dict(),
             'optimizer_state_dict': optimizer.state_dict(),
             }, f'{t_config.PATH}_{s_config.seed}')
-
-
-# In[ ]:
-
 
 if __name__ == "__main__":
     
