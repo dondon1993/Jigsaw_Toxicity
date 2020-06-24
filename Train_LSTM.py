@@ -160,29 +160,33 @@ def train_LSTM(t_config, p_config, s_config):
 
 if __name__ == "__main__":
     
+    config_path = sys.argv[1]
+    with open(config_path) as json_file:
+        configs = json.load(json_file)
+
     t_config = train_config(
-        num_to_load = 1500000,
-        valid_size = 100000,
-        num_aux_targets = 14,
-        Max_Num_Words = 30000,
-        MAX_SEQUENCE_LENGTH = 250,
-        LSTM_UNITS = 400,
-        num_epoch = 3,
-        batch_size = 128,
-        learning_rate = 5e-4,
-        accumulation_steps = 4,
-        self.PATH = './checkpoint/model-LSTM.pth'
+        num_to_load = configs['train_config']['num_to_load'],
+        valid_size = configs['train_config']['valid_size'],
+        num_aux_targets = configs['train_config']['num_aux_targets'],
+        Max_Num_Words = configs['train_config']['Max_Num_Words'],
+        MAX_SEQUENCE_LENGTH = configs['train_config']['MAX_SEQUENCE_LENGTH'],
+        LSTM_UNITS = configs['train_config']['LSTM_UNITS'],
+        num_epoch = configs['train_config']['num_epoch'],
+        batch_size = configs['train_config']['batch_size'],
+        learning_rate = configs['train_config']['learning_rate'],
+        accumulation_steps = configs['train_config']['accumulation_steps'],
+        PATH = configs['train_config']['PATH']
     )
     p_config = preproc_config(
-        lower_case = True, 
-        replace_at = True,
-        clean_tweets = True,
-        replace_misspell = True,
-        replace_star = True,
-        replace_puncts = True,
+        lower_case = configs['preproc_config']['lower_case'], 
+        replace_at = configs['preproc_config']['replace_at'],
+        clean_tweets = configs['preproc_config']['clean_tweets'],
+        replace_misspell = configs['preproc_config']['replace_misspell'],
+        replace_star = configs['preproc_config']['replace_star'],
+        replace_puncts = configs['preproc_config']['replace_puncts'],
     )
     s_config = seed_config(
-        SEED = 7529
+        SEED = configs['seed_config']['SEED']
     )
     
     train_LSTM(t_config, p_config, s_config)
