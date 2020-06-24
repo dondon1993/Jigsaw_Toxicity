@@ -3,7 +3,6 @@ import pandas as pd
 import json
 import os
 
-import import_ipynb
 from utils.Seed import seed_config, seed_everything
 from utils.Preprocess import preproc_config, prepare_train_text
 from utils.Bert import get_tokenized_samples, resort_index, clip_to_max_len, train_config
