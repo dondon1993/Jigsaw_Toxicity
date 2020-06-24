@@ -1,70 +1,25 @@
-
-# coding: utf-8
-
-# In[1]:
-
-
 import numpy as np
 import pandas as pd
+import sys
 
-import matplotlib.pyplot as plt
-import seaborn as sns
-sns.set()
-
-import os
-
-
-# In[ ]:
-
-
-import import_ipynb
 from utils.Seed import seed_config, seed_everything
 from utils.Preprocess import preproc_config, prepare_train_text
 from utils.LSTM import train_config, create_embeddings_matrix, tokenize, pad_text, NeuralNet
 
-
-# In[3]:
-
-
 from tqdm import tqdm_notebook
-pd.options.display.precision = 6
 
 import gc
-import warnings
-warnings.filterwarnings("ignore")
-
-
-# In[4]:
-
-
 import pickle
-
-
-# In[5]:
-
 
 import torch
 from torch.utils import data
 from torch.nn import functional as F
 from torch.optim import Adam
-
-
-# In[6]:
-
-
 from apex import amp
-
-
-# In[7]:
-
 
 identity_columns = [
     'male', 'female', 'homosexual_gay_or_lesbian', 'christian', 'jewish',
     'muslim', 'black', 'white', 'psychiatric_or_mental_illness']
-
-
-# In[17]:
-
 
 def train_LSTM(t_config, p_config, s_config):
     
@@ -153,10 +108,6 @@ def train_LSTM(t_config, p_config, s_config):
             'model_state_dict': MyModel.state_dict(),
             'optimizer_state_dict': optimizer.state_dict(),
             }, f'{t_config.PATH}_{epoch}')
-
-
-# In[ ]:
-
 
 if __name__ == "__main__":
     
