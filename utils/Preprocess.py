@@ -1,17 +1,7 @@
-
-# coding: utf-8
-
-# In[1]:
-
-
 import pandas as pd
 import numpy as np
 import re
 import string
-
-
-# In[2]:
-
 
 puncts = [',', '.', '"', ':', ')', '(', '-', '!', '?', '|', ';', "'", '$', '&', '/', '[', ']',
           '>', '%', '=', '#', '*', '+', '\\', '•', '~', '@', '£', '·', '_', '{', '}', '©', '^',
@@ -287,10 +277,6 @@ misspell_dict = {"aren't": "are not", "can't": "can not", "couldn't": "could not
                 " wtpa " : " where the party at "," wuf " : " where are you from "," wuzup " : " what is up "," wywh " : " wish you were here ",
                 " yd " : " yard "," ygtr " : " you got that right "," ynk " : " you never know "," zzz " : " sleeping bored and tired "}
 
-
-# In[3]:
-
-
 def convert_to_bool(df, col_name):
     df[col_name] = np.where(df[col_name] >= 0.5, True, False)
     
@@ -302,10 +288,6 @@ def convert_dataframe_to_bool(df):
         convert_to_bool(bool_df, col)
     return bool_df
 
-
-# In[4]:
-
-
 def clean_tweets(row):
     """Removes links and non-ASCII characters"""
     
@@ -315,10 +297,6 @@ def clean_tweets(row):
     
     return row
 
-
-# In[5]:
-
-
 def replace_misspell(x):
     
     for (key, value) in misspell_dict.items():
@@ -326,10 +304,6 @@ def replace_misspell(x):
             x = x.replace(key, value)
                 
     return x
-
-
-# In[6]:
-
 
 def replace_puncts(row):
     
@@ -342,10 +316,6 @@ def replace_puncts(row):
             row = row.replace(punct, f' {punct} ')
             
     return row
-
-
-# In[7]:
-
 
 def replace_at(row):
     if '@' not in row:
@@ -361,25 +331,13 @@ def replace_at(row):
     new_word.strip()
     return new_word
 
-
-# In[8]:
-
-
 def replace_numbers(row):
     return re.sub(r'\d+', ' ', row)
-
-
-# In[9]:
-
 
 def replace_star(row):
     for pattern, repl in star_replacer:
         row = pattern.sub(repl, row)
     return row
-
-
-# In[10]:
-
 
 class preproc_config:
     
@@ -391,10 +349,6 @@ class preproc_config:
         self.replace_misspell = replace_misspell
         self.replace_star = replace_star
         self.replace_puncts = replace_puncts
-
-
-# In[1]:
-
 
 def prepare_train_text(df, preproc_config):
     
@@ -432,4 +386,3 @@ def prepare_train_text(df, preproc_config):
         df['text_proc'] = df['text_proc'].apply(replace_puncts)
     
     return df
-
