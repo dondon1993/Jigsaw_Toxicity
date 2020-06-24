@@ -31,7 +31,7 @@ def train_bert_uncased(t_config, p_config, s_config):
     device=torch.device('cuda')
     seed_everything(s_config.seed)
     
-    train = pd.read_csv('./input/train.csv').sample(t_config.num_to_load+t_config.valid_size,
+    train = pd.read_csv('../input/train.csv').sample(t_config.num_to_load+t_config.valid_size,
                                                     random_state=s_config.seed)
     train = prepare_train_text(train, p_config)
     train = train.fillna(0)
