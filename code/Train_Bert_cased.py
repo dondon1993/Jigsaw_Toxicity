@@ -13,8 +13,6 @@ import sys
 
 from tqdm import tqdm_notebook
 
-from scipy import stats
-
 from transformers import BertTokenizer,BertForSequenceClassification
 from pytorch_pretrained_bert import BertAdam
 
