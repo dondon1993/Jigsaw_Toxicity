@@ -1,15 +1,5 @@
-
-# coding: utf-8
-
-# In[1]:
-
-
 import pandas as pd
 import numpy as np
-
-
-# In[2]:
-
 
 def convert_to_bool(df, col_name):
     df[col_name] = np.where(df[col_name] >= 0.5, True, False)
@@ -21,10 +11,6 @@ def convert_dataframe_to_bool(df):
             col = 'toxicity'
         convert_to_bool(bool_df, col)
     return bool_df
-
-
-# In[3]:
-
 
 def calculate_overall_auc(df, model_name):
     true_labels = df[TOXICITY_COLUMN]
@@ -42,10 +28,6 @@ def get_final_metric(bias_df, overall_auc, POWER=-5, OVERALL_MODEL_WEIGHT=0.25):
         power_mean(bias_df[BNSP_AUC], POWER)
     ])
     return (OVERALL_MODEL_WEIGHT * overall_auc) + ((1 - OVERALL_MODEL_WEIGHT) * bias_score)
-
-
-# In[4]:
-
 
 SUBGROUP_AUC = 'subgroup_auc'
 BPSN_AUC = 'bpsn_auc'  # stands for background positive, subgroup negative
@@ -92,4 +74,3 @@ def compute_bias_metrics_for_model(dataset,
         record[BNSP_AUC] = compute_bnsp_auc(dataset, subgroup, label_col, model)
         records.append(record)
     return pd.DataFrame(records).sort_values('subgroup_auc', ascending=True)
-
