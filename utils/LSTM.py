@@ -1,16 +1,6 @@
-
-# coding: utf-8
-
-# In[1]:
-
-
 import numpy as np
 import pandas as pd
 from collections import Counter
-
-
-# In[2]:
-
 
 import tokenization
 from wordcloud import STOPWORDS
@@ -19,17 +9,9 @@ import re
 from nltk.stem import PorterStemmer, SnowballStemmer
 from nltk.stem.lancaster import LancasterStemmer
 
-
-# In[9]:
-
-
 import torch
 from torch import nn
 from torch.nn import functional as F
-
-
-# In[3]:
-
 
 def create_embedding_index(Path, head = 'y'):
     
@@ -47,10 +29,6 @@ def create_embedding_index(Path, head = 'y'):
             i = i + 1
             
     return embeddings_index
-
-
-# In[15]:
-
 
 def build_vocab(df, Max_Num_Words = 100000, TEXT_COLUMN = 'comment_text'):
 
@@ -71,10 +49,6 @@ def build_vocab(df, Max_Num_Words = 100000, TEXT_COLUMN = 'comment_text'):
     
     return vocab
 
-
-# In[12]:
-
-
 def text2ids(text, token2id, MAX_SEQUENCE_LENGTH):
     return [
         token2id.get(token, len(token2id) - 1)
@@ -86,10 +60,6 @@ def tokenize(df, token2id, MAX_SEQUENCE_LENGTH, Comment_Column = 'text_proc'):
     texts = [text2ids(text, token2id, MAX_SEQUENCE_LENGTH) for text in texts]
     
     return texts
-
-
-# In[14]:
-
 
 ps = PorterStemmer()
 lc = LancasterStemmer()
@@ -142,10 +112,6 @@ def create_embeddings_matrix(embeddings_index, word_index, MAX_NUM_WORDS = 30000
             
     return embedding_matrix
 
-
-# In[8]:
-
-
 def pad_text(texts, MAX_SEQUENCE_LENGTH):
     
     all_tokens = []
@@ -160,10 +126,6 @@ def pad_text(texts, MAX_SEQUENCE_LENGTH):
         all_tokens.append(text)
         
     return np.array(all_tokens)
-
-
-# In[10]:
-
 
 class NeuralNet(nn.Module):
     def __init__(self, embedding_matrix, num_aux_targets, LSTM_UNITS):
@@ -208,15 +170,11 @@ class NeuralNet(nn.Module):
         
         return out
 
-
-# In[ ]:
-
-
 class train_config:
     
     def __init__(self, num_to_load, valid_size, num_aux_targets, Max_Num_Words,
                  MAX_SEQUENCE_LENGTH, LSTM_UNITS, num_epoch, 
-                 batch_size, learning_rate, accumulation_steps, PATH=None):
+                 batch_size, learning_rate, accumulation_steps, PATH='./'):
         
         self.num_to_load = num_to_load
         self.valid_size = valid_size
@@ -228,5 +186,4 @@ class train_config:
         self.batch_size = batch_size
         self.learning_rate = learning_rate
         self.accumulation_steps = accumulation_steps
-        self.PATH = './'
-
+        self.PATH = PATH
