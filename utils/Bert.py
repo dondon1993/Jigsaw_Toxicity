@@ -1,25 +1,11 @@
-
-# coding: utf-8
-
-# In[2]:
-
-
 import torch
 import numpy as np
 from transformers import BertTokenizer
 import random
 
-
-# In[4]:
-
-
 identity_columns = [
     'male', 'female', 'homosexual_gay_or_lesbian', 'christian', 'jewish',
     'muslim', 'black', 'white', 'psychiatric_or_mental_illness']
-
-
-# In[5]:
-
 
 def get_tokenized_samples(max_seq_length, tokenizer, texts):
 
@@ -39,10 +25,6 @@ def get_tokenized_samples(max_seq_length, tokenizer, texts):
         all_tokens.append(tokens)
     return np.array(all_tokens)
 
-
-# In[6]:
-
-
 def resort_index(ids_train, num_of_bucket, seed):
     
     num_of_bucket = 2
@@ -57,20 +39,12 @@ def resort_index(ids_train, num_of_bucket, seed):
 
     return ids_train_new
 
-
-# In[7]:
-
-
 def clip_to_max_len(batch):
     
     inputs, Target, Target_aux, Target_identity, weight, lengths = map(torch.stack, zip(*batch))
     max_len = torch.max(lengths).item()
     
     return inputs[:, :max_len], Target, Target_aux, Target_identity, weight
-
-
-# In[16]:
-
 
 class train_config:
     
