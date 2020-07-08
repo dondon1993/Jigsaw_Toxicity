@@ -82,3 +82,5 @@ class NeuralNet(nn.Module):
 * 2 bert-base-uncased models with 15-target classification head
 * 2 LSTM models with 200 LSTM hidden units
 * 1 LSTM models with 400 LSTM hidden units
+
+Final score is 0.94276 ranking 145/3165
