@@ -21,8 +21,8 @@ Transfer learning from [huggingface](https://github.com/huggingface/transformers
 
 The most important things learned during the implementation of Bert models are:
 
-1. Use [NVIDIA Apex](https://github.com/NVIDIA/apex) for more efficient training
-2. Bucket sequencing to clip sentences to longest sentence in the same batch. This speeds up both training and inference process.
+* Use [NVIDIA Apex](https://github.com/NVIDIA/apex) for more efficient training
+* Bucket sequencing to clip sentences to longest sentence in the same batch. This speeds up both training and inference process.
 
 For more details about the above operations, please refer to the [blog](https://medium.com/swlh/bridge-the-gap-between-online-course-and-kaggle-experience-from-jigsaw-unintended-toxicity-bias-6d4f638c4375#6561-f7a80a335237) here.
 
