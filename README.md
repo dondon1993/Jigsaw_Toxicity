@@ -28,8 +28,8 @@ For more details about the above operations, please refer to the [blog](https://
 
 # LSTM models
 
-Simple architecture which has been used in the kaggle community during the competition. The code is below:
-'''
+Simple architecture which has been used in the kaggle community during the competition. Two consecutive birectional LSTMs followed by a couple of dense layers. We used word based embeddings here. From my experience this type of model requires more careful preprocessing so that more words in a sentence can be recognized. The vocab is constructed by concatenating cc.en.300.vec from fasttext and glove.6B.300d.txt from global vectors. The code is below:
+```
 class NeuralNet(nn.Module):
     def __init__(self, embedding_matrix, num_aux_targets, LSTM_UNITS):
         super(NeuralNet, self).__init__()
@@ -72,4 +72,13 @@ class NeuralNet(nn.Module):
         out = torch.cat([result, aux_result], 1)
         
         return out
-'''
+```
+
+# Final Solution
+
+* 3 bert-base-cased models with 6-target classification head
+* 1 bert-base-cased model with 15-target classification head
+* 2 bert-base-uncased models with 6-target classification head
+* 2 bert-base-uncased models with 15-target classification head
+* 2 LSTM models with 200 LSTM hidden units
+* 1 LSTM models with 400 LSTM hidden units
