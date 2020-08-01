@@ -84,3 +84,10 @@ class NeuralNet(nn.Module):
 * 1 LSTM models with 400 LSTM hidden units
 
 Final score is 0.94276 ranking 145/3165
+
+# Things to improve
+
+* Language model pre-training with the domain specific texts (In this competition tweeters)
+* Sensitivity to possibly useful external data
+* A deeper understanding of attention mechanism
+* Hardware usage and management such as distributed deep learning to improve efficiency
