@@ -7,6 +7,7 @@ identity_columns = [
     'male', 'female', 'homosexual_gay_or_lesbian', 'christian', 'jewish',
     'muslim', 'black', 'white', 'psychiatric_or_mental_illness']
 
+# Token generation from Bert tokenizer
 def get_tokenized_samples(max_seq_length, tokenizer, texts):
 
     all_tokens = []
@@ -25,6 +26,7 @@ def get_tokenized_samples(max_seq_length, tokenizer, texts):
         all_tokens.append(tokens)
     return np.array(all_tokens)
 
+# shuffle data within each bucket
 def resort_index(ids_train, num_of_bucket, seed):
     
     num_of_bucket = 2
@@ -39,6 +41,7 @@ def resort_index(ids_train, num_of_bucket, seed):
 
     return ids_train_new
 
+# Clip the lengths of sentences within a batch according to the longest sentence
 def clip_to_max_len(batch):
     
     inputs, Target, Target_aux, Target_identity, weight, lengths = map(torch.stack, zip(*batch))
@@ -46,6 +49,7 @@ def clip_to_max_len(batch):
     
     return inputs[:, :max_len], Target, Target_aux, Target_identity, weight
 
+# Training configuration
 class train_config:
     
     def __init__(self, num_to_load, valid_size, num_labels, 
