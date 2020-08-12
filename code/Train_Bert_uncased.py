@@ -25,6 +25,7 @@ identity_columns = [
     'male', 'female', 'homosexual_gay_or_lesbian', 'christian', 'jewish',
     'muslim', 'black', 'white', 'psychiatric_or_mental_illness']
 
+# Train bert base uncased models
 def train_bert_uncased(t_config, p_config, s_config):
     
     device=torch.device('cuda')
