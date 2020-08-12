@@ -3,10 +3,12 @@ import numpy as np
 import torch
 import pickle
 
+# random seed configuration
 class seed_config:
     def __init__(self, SEED):
         self.seed = SEED
 
+# Fix random seeds in np and cuda
 def seed_everything(SEED):
     np.random.seed(SEED)
     torch.manual_seed(SEED)
