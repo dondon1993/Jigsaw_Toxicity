@@ -8,6 +8,7 @@ from utils.LSTM import train_config, create_embedding_index, build_vocab
 
 import pickle
 
+# generate embeddings index and vocab for LSTM training
 def generate_vocab(t_config, p_config, s_config):
     
     seed_everything(s_config.seed)
