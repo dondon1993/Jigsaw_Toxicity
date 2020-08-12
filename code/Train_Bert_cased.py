@@ -26,6 +26,7 @@ identity_columns = [
     'male', 'female', 'homosexual_gay_or_lesbian', 'christian', 'jewish',
     'muslim', 'black', 'white', 'psychiatric_or_mental_illness']
 
+# Train bert base cased models
 def train_bert_cased(t_config, p_config, s_config):
     
     device=torch.device('cuda')
@@ -80,9 +81,9 @@ def train_bert_cased(t_config, p_config, s_config):
     train_dataset = data.TensorDataset(inputs_train, Target_train, Target_train_aux, Target_train_identity, weight_train, Lengths_train)
     val_dataset = data.TensorDataset(inputs_val, Target_val, Target_val_aux, Target_val_identity, weight_val, Lengths_val)
     
+    # Bucket sequencing
     ids_train = lengths_train.argsort(kind="stable")
     ids_train_new = resort_index(ids_train, t_config.num_of_bucket, s_config.seed)
-    
     train_loader = torch.utils.data.DataLoader(data.Subset(train_dataset, ids_train_new), batch_size=t_config.batch_size, collate_fn=clip_to_max_len, shuffle=False)
     
     no_decay = ['bias', 'LayerNorm.bias', 'LayerNorm.weight']
@@ -127,10 +128,10 @@ def train_bert_cased(t_config, p_config, s_config):
                 loss_identity = F.binary_cross_entropy_with_logits(y_pred[0][:,6:],target_identity.to(device), reduction='none').mean(axis=1)
                 loss_identity = (loss_identity * sample_weight.to(device)).sum()/(sample_weight.sum().to(device))
                 loss += loss_identity
-
+            # Use apex for better gradients and smaller model sizes
             with amp.scale_loss(loss, optimizer) as scaled_loss:
                 scaled_loss.backward()
-
+            # Use accumulation steps to tune the effective batch size of training
             if (i+1) % t_config.accumulation_steps == 0:             
                 optimizer.step()                            
                 optimizer.zero_grad()
