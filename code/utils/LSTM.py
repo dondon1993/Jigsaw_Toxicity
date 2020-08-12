@@ -13,6 +13,7 @@ import torch
 from torch import nn
 from torch.nn import functional as F
 
+# Create dictionary with key being the word and value being the embedding vector
 def create_embedding_index(Path, head = 'y'):
     
     embeddings_index = {}
@@ -30,6 +31,7 @@ def create_embedding_index(Path, head = 'y'):
             
     return embeddings_index
 
+# Build vocab from the number of word occurences. vocab contains token2id and id2token where token is the original word (string) and id is the index (int).
 def build_vocab(df, Max_Num_Words = 100000, TEXT_COLUMN = 'comment_text'):
 
     counter = Counter()
@@ -49,11 +51,13 @@ def build_vocab(df, Max_Num_Words = 100000, TEXT_COLUMN = 'comment_text'):
     
     return vocab
 
+# Tokenize each word in sentences according to vocab, if word not found, assign len(token2id) - 1 which corresponds to unknown words
 def text2ids(text, token2id, MAX_SEQUENCE_LENGTH):
     return [
         token2id.get(token, len(token2id) - 1)
         for token in text.split()[:MAX_SEQUENCE_LENGTH]]
 
+# Tokenize the whole sentence
 def tokenize(df, token2id, MAX_SEQUENCE_LENGTH, Comment_Column = 'text_proc'):
     
     texts = df[Comment_Column].values
@@ -65,6 +69,7 @@ ps = PorterStemmer()
 lc = LancasterStemmer()
 sb = SnowballStemmer('english')
 
+# Create embeddings matrix from embeddings index and token2id in vocab, which records words with their embedding vector and indexes (token number) respectively.
 def create_embeddings_matrix(embeddings_index, word_index, MAX_NUM_WORDS = 30000):
     Embedding_dimension = len(embeddings_index['the'])
     nb_words = min(MAX_NUM_WORDS + 2, len(word_index))
@@ -75,7 +80,8 @@ def create_embeddings_matrix(embeddings_index, word_index, MAX_NUM_WORDS = 30000
     for key, i in word_index.items():
         word = key
         embedding_vector = embeddings_index.get(word)
-            
+        
+        # different ways of handling missing words in embeddings index by changing forms of words
         if embedding_vector is not None:
             embedding_matrix[i] = embedding_vector
             continue
@@ -112,6 +118,7 @@ def create_embeddings_matrix(embeddings_index, word_index, MAX_NUM_WORDS = 30000
             
     return embedding_matrix
 
+# pad sentences according to the max sequence length. Padded part shows up in the front since contents have to be close to the output to have effective gradient flow
 def pad_text(texts, MAX_SEQUENCE_LENGTH):
     
     all_tokens = []
