@@ -1,6 +1,7 @@
 import pandas as pd
 import numpy as np
 
+# Copy from competitions metrics code
 def convert_to_bool(df, col_name):
     df[col_name] = np.where(df[col_name] >= 0.5, True, False)
     
