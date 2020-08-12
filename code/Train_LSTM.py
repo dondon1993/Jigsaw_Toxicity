@@ -21,6 +21,7 @@ identity_columns = [
     'male', 'female', 'homosexual_gay_or_lesbian', 'christian', 'jewish',
     'muslim', 'black', 'white', 'psychiatric_or_mental_illness']
 
+# Train LSTM models
 def train_LSTM(t_config, p_config, s_config):
     
     device=torch.device('cuda')
@@ -61,6 +62,7 @@ def train_LSTM(t_config, p_config, s_config):
     
     train_dataset = data.TensorDataset(inputs_train, Target_train, Target_train_aux, Target_train_identity, weight_train)
     
+    # concatenate fast and glove embeddings for better results
     embeddings_matrix = np.concatenate((embeddings_matrix_fast, embeddings_matrix_glove), axis=1)
     MyModel = NeuralNet(embeddings_matrix, 14, t_config.LSTM_UNITS)
     MyModel.to(device)
